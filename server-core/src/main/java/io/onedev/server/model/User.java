@@ -116,6 +116,9 @@ public class User extends AbstractEntity implements AuthenticationInfo {
 	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
     private Collection<Project> projects = new ArrayList<>();
     
+    @OneToMany(mappedBy="owner", cascade=CascadeType.REMOVE)
+    private Collection<SshKey> sshKeys = new ArrayList<>();
+    
 	@Lob
 	@Column(nullable=false, length=65535)
 	private ArrayList<NamedProjectQuery> userProjectQueries = new ArrayList<>();
@@ -526,5 +529,13 @@ public class User extends AbstractEntity implements AuthenticationInfo {
 		else 
 			return SecurityUtils.getUser();
 	}
+
+    public Collection<SshKey> getSshKeys() {
+        return sshKeys;
+    }
+
+    public void setSshKeys(Collection<SshKey> sshKeys) {
+        this.sshKeys = sshKeys;
+    }
 	
 }
